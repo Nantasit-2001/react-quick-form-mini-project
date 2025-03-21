@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Film,RotateCcw,Send,CircleCheckBig    } from 'lucide-react';
 const movies = [
     { title: "Avatar", year: "2009", director: "James Cameron" },
     { title: "Inception", year: "2010", director: "Christopher Nolan" },
@@ -50,22 +51,22 @@ function FormMovie () {
         <>
         <section className="w-full max-w-md shadow- mx-2">
             <div className="flex flex-col space-y-1.5 p-6 bg-gradient-to-r from-purple-700 to-indigo-600 text-white" >
-                <h1 className="font-semibold tracking-tight flex items-center gap-2 text-2xl">Movie Survey</h1>
+                <h1 className="font-semibold tracking-tight flex items-center gap-2 text-2xl"> <Film/>Movie Survey</h1>
             </div>
 {formSucceed?
         <section className="bg-white p-6">
             <div className="rounded-lg bg-green-50 p-4 border border-green-200">
-                <h2 className="text-xl text-green-800 flex items-center gap-2 mb-4">ส่งแบบสำรวจสำเร็จ!</h2>
+                <h2 className="text-xl text-green-800 flex items-center gap-2 mb-4"><CircleCheckBig/>ส่งแบบสำรวจสำเร็จ!</h2>
                 <div className="space-y-3">
                     <div className="grid grid-cols-3 gap-1">
                         <p className="text-sm font-medium text-gray-500">ชื่อ</p>
                         <p className="text-sm col-span-2">{textInput.name}</p>
                     </div>
                     <div className="grid grid-cols-3 gap-1">
-                    <p className="text-sm font-medium text-gray-500">อีเมล</p><p className="text-sm col-span-2">{textInput.email}</p>
+                    <p className="text-sm font-medium text-gray-500">อีเมล</p><p className="text-sm">{textInput.email}</p>
                     </div>
                     <div className="grid grid-cols-3 gap-1">
-                    <p className="text-sm font-medium text-gray-500">หนังที่เลือก:</p><p className="text-sm font-medium text-purple-700 col-span-2">{selectedOption}</p>
+                    <p className="text-sm font-medium text-gray-500">หนังที่เลือก:</p><p className="text-sm font-medium text-purple-700 ">{selectedOption}</p>
                     </div>
                     <div className="mt-4 pt-4 border-t border-gray-300">
                         <p className="text-sm font-medium text-gray-500 mb-2">ความคิดเห็น</p>
@@ -74,7 +75,8 @@ function FormMovie () {
                 </div>            
             </div>
             
-            <button className="rounded-md text-sm text-white h-10 px-4 py-2 w-full flex items-center justify-center gap-2 mt-4 bg-black" onClick={BackToForm}>ทำแบบสำรวจใหม่</button>
+            <button className="rounded-md text-sm text-white h-10 px-4 py-2 w-full flex items-center justify-center gap-2 mt-4 bg-black" 
+            onClick={BackToForm}> <RotateCcw size={18}/>ทำแบบสำรวจใหม่</button>
         </section>
         
 :
@@ -129,9 +131,9 @@ function FormMovie () {
                 <hr className="text-gray-300 my-6"/>
                 <div className="flex flex-row justify-between">
                     <button className="cursor-pointer rounded-md border text-sm border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex items-center gap-1"
-                                        type="button" onClick={resetValue} >รีเซ็ต</button> 
+                                        type="button" onClick={resetValue} ><RotateCcw size={15} />รีเซ็ต</button> 
                     <button className="cursor-pointer rounded-md text-sm font-medium h-10 px-4 py-2 bg-gradient-to-r from-purple-700 to-indigo-600 text-white flex items-center gap-1"
-                    type="submit">ส่งแบบสำรวจ</button>
+                    type="submit"><Send size={15}/>ส่งแบบสำรวจ</button>
                 </div>
             </form>
         </section>
