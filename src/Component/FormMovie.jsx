@@ -1,16 +1,7 @@
 import { useState } from "react";
 import { Film,RotateCcw,Send,CircleCheckBig    } from 'lucide-react';
-const movies = [
-    { title: "Avatar", year: "2009", director: "James Cameron" },
-    { title: "Inception", year: "2010", director: "Christopher Nolan" },
-    { title: "Interstellar", year: "2014", director: "Christopher Nolan" },
-    { title: "The Shawshank Redemption", year: "1994", director: "Frank Darabont" },
-    { title: "Pulp Fiction", year: "1994", director: "Quentin Tarantino" },
-    { title: "Parasite", year: "2019", director: "Bong Joon-ho" }
-  ];
-  function AsteriskRed() {
-    return <span className="text-red-500"> *</span>;
-  }
+import { movies } from "../Data/movise";
+  
 function FormMovie () {
     const [selectedOption, setSelectedOption] = useState("");
     const [textInput, setTextInput] = useState({});
@@ -21,16 +12,10 @@ function FormMovie () {
         resetValue();
         setFormSucceed(false);
     }
-
     const ThenSubmit = (event) => {
         event.preventDefault();
         setDataError({})
-        if (CheckCorrectValue()) {
-            setFormSucceed(true)
-            // resetValue()
-        } else {
-                console.log("❌ => ", dataError);
-        }
+        CheckCorrectValue()?setFormSucceed(true):console.log("❌ => ", dataError)
     };
     const CheckCorrectValue = () =>{
         let tempError={}
@@ -46,7 +31,33 @@ function FormMovie () {
         setTextInput({})
         setDataError({})
     }
-
+    //render
+    function RenderAsteriskRed() {
+    return <span className="text-red-500"> *</span>;
+    }
+    function RenderLableAndInput (nameInput,typeInput,text,placeHolder){
+    return(
+        <>
+        <label className="mt-4" htmlFor={nameInput}>{text}<RenderAsteriskRed/></label>
+                <input className={`border rounded-md p-2 my-2 w-full ${
+                                    nameInput in dataError ? "border-red-500" : "border-gray-400"
+                                }`} 
+                     id={nameInput} type={typeInput} name={nameInput} placeholder={placeHolder}
+                     value={textInput[nameInput] || ""}
+                     onChange={(event)=>setTextInput({ ...textInput, [nameInput]: event.target.value })}
+                    ></input>
+                    {nameInput in dataError ?<span className="text-sm text-red-500">{dataError[nameInput]}</span>:null}
+        </>
+)       
+    }
+    function RenderShowDataInput(topicName,detaInTopic,className){
+        return(
+            <div className="grid grid-cols-3 gap-1">
+                        <p className="text-sm font-medium text-gray-500">{topicName}</p>
+                        <p className={`${className}`}>{detaInTopic}</p>
+            </div>
+        )
+    }
     return(
         <>
         <section className="w-full max-w-md shadow- mx-2">
@@ -58,51 +69,26 @@ function FormMovie () {
             <div className="rounded-lg bg-green-50 p-4 border border-green-200">
                 <h2 className="text-xl text-green-800 flex items-center gap-2 mb-4"><CircleCheckBig/>ส่งแบบสำรวจสำเร็จ!</h2>
                 <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-1">
-                        <p className="text-sm font-medium text-gray-500">ชื่อ</p>
-                        <p className="text-sm col-span-2">{textInput.name}</p>
-                    </div>
-                    <div className="grid grid-cols-3 gap-1">
-                    <p className="text-sm font-medium text-gray-500">อีเมล</p><p className="text-sm">{textInput.email}</p>
-                    </div>
-                    <div className="grid grid-cols-3 gap-1">
-                    <p className="text-sm font-medium text-gray-500">หนังที่เลือก:</p><p className="text-sm font-medium text-purple-700 ">{selectedOption}</p>
-                    </div>
+
+                    {RenderShowDataInput("ชื่อ:",textInput.name,"text-sm")}
+                    {RenderShowDataInput("อีเมล:",textInput.email,"text-sm")}
+                    {RenderShowDataInput("หนังที่เลือก:",selectedOption,"text-sm font-medium text-purple-700 ")}
                     <div className="mt-4 pt-4 border-t border-gray-300">
                         <p className="text-sm font-medium text-gray-500 mb-2">ความคิดเห็น</p>
                         <h3 className="text-sm bg-gray-50 p-3 rounded-md">{textInput.director}</h3>
                     </div>
                 </div>            
             </div>
-            
-            <button className="rounded-md text-sm text-white h-10 px-4 py-2 w-full flex items-center justify-center gap-2 mt-4 bg-black" 
+            <button className=" cursor-pointer rounded-md text-sm text-white h-10 px-4 py-2 w-full flex items-center justify-center gap-2 mt-4 bg-black" 
             onClick={BackToForm}> <RotateCcw size={18}/>ทำแบบสำรวจใหม่</button>
         </section>
-        
-:
+: // form
         <section>
             <form onSubmit={ThenSubmit} className="flex flex-col p-8 bg-white">
-                <label htmlFor="name">ชื่อ<AsteriskRed /></label>
-                <input className={`border rounded-md p-2 my-2 w-full ${
-                                    "name" in dataError ? "border-red-500" : "border-gray-400"
-                                }`} 
-                    id="name" type="text" name="name" placeholder="กรุณากรอกชื่อของคุณ"
-                    value={textInput.name || ""}
-                    onChange={(event)=>setTextInput({ ...textInput, name: event.target.value })}
-                    ></input>
-                    {"name" in dataError ?<span className="text-sm text-red-500">{dataError.name}</span>:null}
+                {RenderLableAndInput("name","text","ชื่อ","กรุณากรอกชื่อของคุณ")}
+                {RenderLableAndInput("email","email","อีเมล","example@email.com")}
 
-                <label className="mt-4" htmlFor="email">อีเมล<AsteriskRed/></label>
-                <input className={`border rounded-md p-2 my-2 w-full ${
-                                    "email" in dataError ? "border-red-500" : "border-gray-400"
-                                }`} 
-                     id="email" type="email" name="email" placeholder="example@email.com"
-                     value={textInput.email || ""}
-                     onChange={(event)=>setTextInput({ ...textInput, email: event.target.value })}
-                    ></input>
-                    {"email" in dataError?<span className="text-sm text-red-500">{dataError.email}</span>:null}
-
-                <h2 className="mt-4 mb-3">เลือกหนังที่คุณชอบ<AsteriskRed/></h2>
+                <h2 className="mt-4 mb-3">เลือกหนังที่คุณชอบ<RenderAsteriskRed/></h2>
                 <div className={`flex flex-col justify-around h-120 px-3 mb-2 ${"selectedOption" in dataError?`border rounded-md border-red-500`:null}`}>
                         {movies.map((movie) => (
                             <label key={movie.title} className="flex items-center gap-2 p-2 rounded-md cursor-pointer transition-colors duration-200 hover:bg-blue-50">
@@ -128,7 +114,9 @@ function FormMovie () {
                     value={textInput.director || ""}
                     onChange={(event)=>setTextInput({ ...textInput, director: event.target.value })}
                 ></textarea>
+                
                 <hr className="text-gray-300 my-6"/>
+                
                 <div className="flex flex-row justify-between">
                     <button className="cursor-pointer rounded-md border text-sm border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 flex items-center gap-1"
                                         type="button" onClick={resetValue} ><RotateCcw size={15} />รีเซ็ต</button> 
